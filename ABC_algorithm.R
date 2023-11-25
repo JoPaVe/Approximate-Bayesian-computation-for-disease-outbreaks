@@ -1,7 +1,7 @@
 
 calc_post_distr <- function(observed_data, tolerance_schedule, prior_distr, distance_fct, perturb_kernels, data_generating_fct, N_particles) {
   ## Function calculates the posterior distribution of model and parameter
-  ##
+  #
   # observed_data: Observed data
   # tolerance_schedule: vector or tolerance_schedule
   # prior_distr: function of prior distribution #!# -> could be relaxed to selection of prior
