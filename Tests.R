@@ -79,4 +79,10 @@ calc_post_distr(observed_data = data$Y, tolerance_schedule = tolerance_schedule,
                 prior_distr = prior_distr, distance_fct = distance_function, perturb_kernels = perturb_kernels,
                 data_generating_fct = data_generating_fct, N_particles = 100)
 
-
+#2)
+observed_data <- matrix()
+tolerance <- 
+prior_distr <- 
+distance_fct <- 
+data_generating_fct <- 
+N_particles <- 200
