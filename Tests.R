@@ -102,10 +102,10 @@ prior_model <- function() {
 }
 
 prior_param_model1 <- function() {
-  qh1 <- runif(1,0,1)
   qc1 <- runif(1,0,1)
-  qh2 <- runif(1,0,1)
+  qh1 <- runif(1,0,1)
   qc2 <- runif(1,0,1)
+  qh2 <- runif(1,0,1)
   return(c(qh1, qc1, qh2, qc2))
 }
 
