@@ -9,7 +9,7 @@ calc_post_distr_base <- function(observed_data, epsilon, prior_distr, model_numb
   # distance_fct: function distance function (candidate_data, observed_data)
   # N_particles: Integer of N particle samples
   # data_generating_fct: Data generating function
-  # tolerance: Integer defining epsilon
+  # tolerance: Integer defining epsilon.
   ## 
   
   
