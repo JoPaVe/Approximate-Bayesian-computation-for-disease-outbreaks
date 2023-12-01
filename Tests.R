@@ -1,8 +1,4 @@
 library(matrixcalc)
-library(ggplot2)
-
-
-
 
 
 
@@ -113,8 +109,6 @@ observed_data_Table2 <- list(matrix(H3N2_1977_78, nrow = 6, ncol = 5, byrow = TR
 observed_data_Table3 <- list(matrix(InfB_1975_76, nrow = 6, ncol = 5, byrow = TRUE),
                              matrix(H1N1_1978_79, nrow = 6, ncol = 3, byrow = TRUE))
 
-epsilon <- 25
-
 prior_model <- function() {
   return(1)
 }
@@ -198,7 +192,7 @@ create_matrix <- function(qc, qh, observed_data) {
     
   }
   
-  data_matrix <- sweep(data_probs_matrix, MARGIN = 2, total_observations, "*")
+  data_matrix <- round(sweep(data_probs_matrix, MARGIN = 2, total_observations, "*"))
   return(data_matrix)
 }
 
@@ -206,27 +200,14 @@ N_particles <- 100
 
 model_number_params <- c(4)
 
-results_Table2 <- calc_post_distr_base(observed_data = observed_data_Table2, model_number_params = model_number_params, epsilon = epsilon, prior_distr = prior_distr, distance_fct = distance_fct, data_generating_fct = data_generating_fct, N_particles = N_particles)
-colnames(results_Table2[[2]][[1]]) <- c("qc1", "qh1", "qc2", "qh2")
+epsilon <- 20
 
+results_Table2 <- calc_post_distr_base(observed_data = observed_data_Table2, model_number_params = model_number_params, epsilon = epsilon, prior_distr = prior_distr, distance_fct = distance_fct, data_generating_fct = data_generating_fct, N_particles = N_particles)
+
+epsilon <- 8
 
 results_Table3 <- calc_post_distr_base(observed_data = observed_data_Table3, model_number_params = model_number_params, epsilon = epsilon, prior_distr = prior_distr, distance_fct = distance_fct, data_generating_fct = data_generating_fct, N_particles = N_particles)
-colnames(results_Table3[[2]][[1]]) <- c("qc1", "qh1", "qc2", "qh2")
 
-
-ggplot(data = results_Table2[[2]][[1]]) + 
-  geom_point(aes(qh1, qc1), color = "red") +
-  geom_point(aes(qh2, qc2), color = "blue") +
-  ylim(c(0,1)) + 
-  xlim(c(0,1)) + 
-  theme_bw()
-
-ggplot(data = results_Table3[[2]][[1]]) + 
-  geom_point(aes(qh1, qc1), color = "red") +
-  geom_point(aes(qh2, qc2), color = "blue") +
-  ylim(c(0,1)) + 
-  xlim(c(0,1)) + 
-  theme_bw()
 
 # Test
 
