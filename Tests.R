@@ -1,11 +1,5 @@
 library(matrixcalc)
 
-
-
-
-
-
-
 ######### Examples from Paper #############
 library(GillespieSSA)
 #1)
