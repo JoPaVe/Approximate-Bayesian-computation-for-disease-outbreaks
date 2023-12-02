@@ -2,10 +2,6 @@ library(matrixcalc)
 
 
 
-
-
-
-
 ######### Examples from Paper #############
 library(GillespieSSA)
 #1)
@@ -79,13 +75,13 @@ calc_post_distr(observed_data = data$Y, tolerance_schedule = tolerance_schedule,
                 prior_distr = prior_distr, distance_fct = distance_function, perturb_kernels = perturb_kernels,
                 data_generating_fct = data_generating_fct, N_particles = 100)
 
-#2)
-H3N2_1977_78 <- c(66, 87, 25, 22, 4,
-                  13, 14, 15, 9, 4,
-                  NA, 4, 4, 9, 1, 
-                  NA, NA, 4, 3, 1,
-                  NA, NA, NA, 1, 1,
-                  NA, NA, NA, NA, 0)
+#############################2)
+H3N2_1977_78 <- c(66, 87, 25, 22,  4,
+                  13, 14, 15,  9,  4,
+                  NA,  4,  4,  9,  1, 
+                  NA, NA,  4,  3,  1,
+                  NA, NA, NA,  1,  1,
+                  NA, NA, NA, NA,  0)
 H3N2_1980_81 <- c(44, 62, 47, 38, 9,
                   10, 13, 8, 11, 5,
                   NA, 9, 2, 7, 3, 
@@ -93,9 +89,25 @@ H3N2_1980_81 <- c(44, 62, 47, 38, 9,
                   NA, NA, NA, 1, 0, 
                   NA, NA, NA, NA, 1)
 
-observed_data <- list(matrix(H3N2_1977_78, nrow = 6, ncol = 5, byrow = TRUE),
-                      matrix(H3N2_1980_81, nrow = 6, ncol = 5, byrow = TRUE))
-epsilon <- 25
+InfB_1975_76 <- c( 9, 12, 18,  9,  4,
+                   1,  6,  6,  4,  3,
+                  NA,  2,  3,  4,  0, 
+                  NA, NA,  1,  3,  2,
+                  NA, NA, NA,  0,  0,
+                  NA, NA, NA, NA,  0)
+H1N1_1978_79 <- c(15, 12,  4,
+                  11, 17,  4,
+                  NA, 21,  5,
+                  NA, NA, NA,
+                  NA, NA, NA,
+                  NA, NA, NA)
+
+
+observed_data_Table2 <- list(matrix(H3N2_1977_78, nrow = 6, ncol = 5, byrow = TRUE),
+                             matrix(H3N2_1980_81, nrow = 6, ncol = 5, byrow = TRUE))
+
+observed_data_Table3 <- list(matrix(InfB_1975_76, nrow = 6, ncol = 5, byrow = TRUE),
+                             matrix(H1N1_1978_79, nrow = 6, ncol = 3, byrow = TRUE))
 
 prior_model <- function() {
   return(1)
@@ -106,7 +118,7 @@ prior_param_model1 <- function() {
   qh1 <- runif(1,0,1)
   qc2 <- runif(1,0,1)
   qh2 <- runif(1,0,1)
-  return(c(qh1, qc1, qh2, qc2))
+  return(c(qc1, qh1, qc2, qh2))
 }
 
 prior_params <- list(prior_param_model1)
@@ -180,7 +192,7 @@ create_matrix <- function(qc, qh, observed_data) {
     
   }
   
-  data_matrix <- sweep(data_probs_matrix, MARGIN = 2, total_observations, "*")
+  data_matrix <- round(sweep(data_probs_matrix, MARGIN = 2, total_observations, "*"))
   return(data_matrix)
 }
 
@@ -188,26 +200,39 @@ N_particles <- 100
 
 model_number_params <- c(4)
 
-undebug(calc_post_distr_base)
-results <- calc_post_distr_base(observed_data = observed_data, model_number_params = model_number_params, epsilon = epsilon, prior_distr = prior_distr, distance_fct = distance_fct, data_generating_fct = data_generating_fct, N_particles = N_particles)
-plot(results[[2]][[1]]$X1, results[[2]][[1]]$X2,
-     xlim = c(0,1),
-     ylim = c(0,1))
-points(results[[2]][[1]]$X3, results[[2]][[1]]$X4, pch = 16)
+epsilon <- 20
+
+results_Table2 <- calc_post_distr_base(observed_data = observed_data_Table2, model_number_params = model_number_params, epsilon = epsilon, prior_distr = prior_distr, distance_fct = distance_fct, data_generating_fct = data_generating_fct, N_particles = N_particles)
+
+epsilon <- 8
+
+results_Table3 <- calc_post_distr_base(observed_data = observed_data_Table3, model_number_params = model_number_params, epsilon = epsilon, prior_distr = prior_distr, distance_fct = distance_fct, data_generating_fct = data_generating_fct, N_particles = N_particles)
+
 
 # Test
+
+# Examine accepted parameters qith low qh1 values:
+# Create grid and check which is smalles distance
+grid <- expand.grid(qh1 = seq(0,1,0.1), qc1 = seq(0.75,1,0.05), gh2 = seq(0,1,0.1), qc2 = seq(0.75,1,0.05))
+
+grid_results <- apply(grid, MARGIN = 1, FUN = function(row) {
+  return(distance_fct(observed_data_Table2, data_generating_fct(row, observed_data_Table2)))
+})
+
+test_results <- cbind(grid, grid_results)
+test_results[test_results$grid_results < 20,]
 
 # Distance between itself should be 0
 distance_fct(observed_data, observed_data)
 
 
-test1 <- c(60, 80, 10, 22, 4,
+test1 <- c(63, 87, 25, 22, 4,
                   13, 14, 15, 9, 4,
                   NA, 4, 4, 9, 1, 
                   NA, NA, 4, 3, 1,
                   NA, NA, NA, 1, 1,
                   NA, NA, NA, NA, 0)
-test2 <- c(40, 60, 45, 38, 9,
+test2 <- c(42, 62, 47, 38, 9,
                   10, 13, 8, 11, 5,
                   NA, 9, 2, 7, 3, 
                   NA, NA, 3, 5, 1, 
