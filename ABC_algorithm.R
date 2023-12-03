@@ -68,9 +68,15 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
     if (distance_data <= kEpsilon) {
       posterior_model_distributions[[model_draw]][accepted,] <- param_draw  # Store theta* for model m*
       accepted <- accepted + 1
+      print(accepted)
     } 
     attempted <- attempted + 1
   }
+  
+  # Remove all NA rows
+  posterior_model_distributions <- lapply(posterior_model_distributions, FUN = function(param_df) {
+    return(param_df |> na.exclude()) 
+  })
   
   # Compute marginal model probabilities
   marginal_model_probs <- sapply(1:number_models, FUN = function(model) {

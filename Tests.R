@@ -71,11 +71,6 @@ data_generating_fct <- function(parameter) {
   
 }
 
-calc_post_distr(observed_data = data$Y, tolerance_schedule = tolerance_schedule,
-                prior_distr = prior_distr, distance_fct = distance_function, perturb_kernels = perturb_kernels,
-                data_generating_fct = data_generating_fct, N_particles = 100)
-
-
 
 #### Example 3.3 Infuenza infection outbreaks of Toni T., Stumpf M.P.H. (2009) - Simulation-based model selection for dynamical systems in systems and population biology
 
@@ -117,7 +112,7 @@ observed_data_Table2 <- list(matrix(H3N2_1977_78, nrow = 6, ncol = 5, byrow = TR
 observed_data_Table3 <- list(matrix(InfB_1975_76, nrow = 6, ncol = 5, byrow = TRUE),
                              matrix(H1N1_1978_79, nrow = 6, ncol = 3, byrow = TRUE))
 
-# Prior for model 1 (only model in example)
+# Prior for model
 PriorModel <- function() {
   return(1)
 }
@@ -231,11 +226,11 @@ model_number_params <- c(4)
 
 kEpsilon <- 20
 
-results_Table2 <- calc_post_distr_base(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table2 <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 
 kEpsilon <- 8
 
-results_Table3 <- calc_post_distr_base(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table3 <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 
 
 ## Tests for arguments of calc_post_distr_base(...)
@@ -353,3 +348,79 @@ for (i in 1:10) {
   
 }
 
+
+## Test with two or more models (Fig. 3 b)
+# Prior for model
+PriorModel <- function() {
+  return(sample(1:2,1))
+}
+
+# Prior for parameter of model 2 (4 parameter)
+PriorParameterModel2 <- function() {
+  qc1 <- runif(1,0,1)
+  qh1 <- runif(1,0,1)
+  qc2 <- runif(1,0,1)
+  qh2 <- runif(1,0,1)
+  return(c(qc1, qh1, qc2, qh2))
+}
+
+# Prior for parameter of model 1 (2 parameter)
+PriorParameterModel1 <- function() {
+  qc1 <- runif(1,0,1)
+  qh1 <- runif(1,0,1)
+  qc2 <- qc1
+  qh2 <- qh1
+  return(c(qc1, qh1, qc2, qh2))
+}
+
+# Parameter prior stored in List -> 1: Prior of parameter for model 1
+#                                   2: Prior of parameter for model 2
+prior_params <- list(PriorParameterModel1, PriorParameterModel2)
+
+# Prior of model and parameter in List -> 1: Prior of model 1
+#                                         2: Prior of parameter for model 1 and model 2
+prior_distr <- list(PriorModel,
+                    prior_params)
+  
+# Number of parameters per model
+model_number_params <- c(4, 4)
+
+kEpsilon <- 15
+
+kNparticles <- 100
+
+results_Table2_test <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table2_test$marginal_model_probabilities
+
+
+## Test with two or more models (Fig. 3 d)
+# Prior for parameter of model 1 (3 parameter)
+PriorParameterModel1 <- function() {
+  qc1 <- runif(1,0,1)
+  qh1 <- runif(1,0,1)
+  qc2 <- runif(1,0,1)
+  qh2 <- qh1
+  return(c(qc1, qh1, qc2, qh2))
+}
+
+# Prior for parameter of model 1 (2 parameter)
+PriorParameterModel2 <- function() {
+  qc1 <- runif(1,0,1)
+  qh1 <- runif(1,0,1)
+  qc2 <- qc1
+  qh2 <- qh1
+  return(c(qc1, qh1, qc2, qh2))
+}
+
+# Parameter prior stored in List -> 1: Prior of parameter for model 1
+#                                   2: Prior of parameter for model 2
+prior_params <- list(PriorParameterModel1, PriorParameterModel2)
+
+# Prior of model and parameter in List -> 1: Prior of model 1
+#                                         2: Prior of parameter for model 1 and model 2
+prior_distr <- list(PriorModel,
+                    prior_params)
+
+
+results_Table3_test <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table3_test$marginal_model_probabilities
