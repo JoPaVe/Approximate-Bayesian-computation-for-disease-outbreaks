@@ -72,10 +72,10 @@ data_generating_fct <- function(parameter) {
 }
 
 
-#### Example 3.3 Infuenza infection outbreaks of Toni T., Stumpf M.P.H. (2009) - Simulation-based model selection for dynamical systems in systems and population biology
+#### Example 3.3 Influenza infection outbreaks of Toni T., Stumpf M.P.H. (2009) - Simulation-based model selection for dynamical systems in systems and population biology
 
 # Observed data according to Supplementary Table 2
-# Inuenza A (H3N2) infection in 1977-78 (middle column) and 1980-81 (right column) epidemics, Tecumseh, Michigan (Addy C, Jr IL and Haber M. A generalized stochastic model for the analysis of infectious disease nal size data. Biometrics, 961-974, 1991.)
+# Influenza A (H3N2) infection in 1977-78 (middle column) and 1980-81 (right column) epidemics, Tecumseh, Michigan (Addy C, Jr IL and Haber M. A generalized stochastic model for the analysis of infectious disease nal size data. Biometrics, 961-974, 1991.)
 H3N2_1977_78 <- c(66, 87, 25, 22,  4,
                   13, 14, 15,  9,  4,
                   NA,  4,  4,  9,  1, 
@@ -90,7 +90,7 @@ H3N2_1980_81 <- c(44, 62, 47, 38,  9,
                   NA, NA, NA, NA,  1)
 
 # Observed data according to Supplementary Table 3
-# Inuenza B infection in 1975-76 epidemic (middle column) and inuenza A (H1N1) infection in 1978-79 epidemic (right column), Seattle, Washington (Jr IL and Koopman J. Household and community transmission parameters from nal distribu-tions of infections in households. Biometrics, 115-126, 1982.)
+# Inuenza B infection in 1975-76 epidemic (middle column) and influenza A (H1N1) infection in 1978-79 epidemic (right column), Seattle, Washington (Jr IL and Koopman J. Household and community transmission parameters from nal distribu-tions of infections in households. Biometrics, 115-126, 1982.)
 InfB_1975_76 <- c( 9, 12, 18,  9,  4,
                    1,  6,  6,  4,  3,
                   NA,  2,  3,  4,  0, 
@@ -200,7 +200,7 @@ CreateMatrix <- function(qc, qh, observed_data) {
   for (column in 1:matrix_columns) {  # Start at first column
     for (row in 2:matrix_rows) {  # Start at second row
       if (is.na(observed_data[row,column])) {
-        data_probs_matrix[row, column] <- NA  # Skip weight calculation if entry is NA in observed data matrix (i.e. more infected persons as susceptibles)
+        data_probs_matrix[row, column] <- NA  # Skip weight calculation if entry is NA in observed data matrix (i.e. more infected persons as susceptible)
         next 
       }
       

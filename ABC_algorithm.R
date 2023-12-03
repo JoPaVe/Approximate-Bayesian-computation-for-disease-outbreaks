@@ -46,10 +46,21 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
   accepted <- 1
   attempted <- 1
   
+  # # Limit for maximum iterations
+  max_iterations <- 100000
+  current_iteration <- 0
   
   ## Loop until kNparticles of parameters are accepted
   
   while(accepted <= kNparticles) {
+    
+    current_iteration <- current_iteration + 1
+
+    # Break the loop if maximum iterations are reached
+    if (current_iteration > max_iterations) {
+      cat("Maximum iterations reached. Breaking out of the loop.\n")
+      break
+    }
     
     # Draw m*
     model_draw <- prior_distr[[1]]()
@@ -68,10 +79,11 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
     if (distance_data <= kEpsilon) {
       posterior_model_distributions[[model_draw]][accepted,] <- param_draw  # Store theta* for model m*
       accepted <- accepted + 1
-      print(accepted)
     } 
     attempted <- attempted + 1
   }
+  
+  print(current_iteration)
   
   # Remove all NA rows
   posterior_model_distributions <- lapply(posterior_model_distributions, FUN = function(param_df) {
