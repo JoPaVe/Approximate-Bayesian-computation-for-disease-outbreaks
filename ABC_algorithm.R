@@ -6,7 +6,7 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
   
   # Args:
   #   observed_data:       Observed data
-  #   kEepsilon:           tolerance level that determines how close the simulated data should be to the observed data in integer
+  #   kEpsilon:           tolerance level that determines how close the simulated data should be to the observed data in integer
   #   prior_distr:         List -> 1: Function for prior distribution of models
   #                                2: List -> 1: Function of prior distributions of parameter for first model 
   #                                           2: Function of prior distributions of parameter for second model
