@@ -6,18 +6,18 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
   
   # Args:
   #   observed_data:       Observed data
-  #   prior_distr:         List -> 1: Function of prior distribution for models
-  #                                2: List -> 1: Function of prior distributions for parameter first model 
-  #                                           2: Function of prior distributions for parameter second model
+  #   kEepsilon:           tolerance level that determines how close the simulated data should be to the observed data in integer
+  #   prior_distr:         List -> 1: Function for prior distribution of models
+  #                                2: List -> 1: Function of prior distributions of parameter for first model 
+  #                                           2: Function of prior distributions of parameter for second model
   #                                           ... 
-  #   model_number_params: Vector -> Number of model parameter per model
-  #   DistanceFct:         Function of distance function
-  #   kNparticles:         Integer of Number of particle samples
-  #   DataGeneratingFct:   Function of data generating function
-  #   kEpsilon:           Integer defining epsilon
+  #   model_number_params: Vector -> Number of parameters for each model
+  #   DistanceFct:         Function that calculates the distance between simulated and observed data
+  #   kNparticles:         Integer of Number of particle samples to draw
+  #   DataGeneratingFct:   Function that generates data based on model parameters
   
   # Returns:
-  #   List -> 1: marginal_model_probs: Data frame of marginal model probabilities
+  #   List -> 1: marginal_model_probs: Data frame of marginal probabilities for each model
   #           2: List posterior_model_distributions -> 1: Data frame of accepted parameter for first model
   #                                                    2: Data frame of accepted parameter for second model
   #                                                    ...
