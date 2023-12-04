@@ -6,19 +6,19 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, kMaxIterations, prio
   
   # Args:
   #   observed_data:       Observed data
-  #   prior_distr:         List -> 1: Function of prior distribution for models
-  #                                2: List -> 1: Function of prior distributions for parameter first model 
-  #                                           2: Function of prior distributions for parameter second model
-  #                                           ... 
-  #   model_number_params: Vector -> Number of model parameter per model
-  #   DistanceFct:         Function of distance function
-  #   kNparticles:         Integer of Number of particle samples
-  #   DataGeneratingFct:   Function of data generating function
-  #   kEpsilon:            Integer defining epsilon
+  #   kEpsilon:           tolerance level that determines how close the simulated data should be to the observed data in integer
   #   kMaxIterations:      Integer defining the maximum number of iterations
+  #   prior_distr:         List -> 1: Function for prior distribution of models
+  #                                2: List -> 1: Function of prior distributions of parameter for first model 
+  #                                           2: Function of prior distributions of parameter for second model
+  #    
+  #   model_number_params: Vector -> Number of parameters for each model
+  #   DistanceFct:         Function that calculates the distance between simulated and observed data
+  #   DataGeneratingFct:   Function that generates data based on model parameters 
+  #   kNparticles:         Integer of Number of particle samples to draw
   
   # Returns:
-  #   List -> 1: marginal_model_probs: Data frame of marginal model probabilities
+  #   List -> 1: marginal_model_probs: Data frame of marginal probabilities for each model
   #           2: List posterior_model_distributions -> 1: Data frame of accepted parameter for first model
   #                                                    2: Data frame of accepted parameter for second model
   #                                                    ...

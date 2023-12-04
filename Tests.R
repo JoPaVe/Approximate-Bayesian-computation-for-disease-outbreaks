@@ -1,7 +1,6 @@
 library(matrixcalc)
 
 
-
 ######### Examples from Paper #############
 library(GillespieSSA)
 #1)
@@ -90,7 +89,8 @@ H3N2_1980_81 <- c(44, 62, 47, 38,  9,
                   NA, NA, NA, NA,  1)
 
 # Observed data according to Supplementary Table 3
-# Inuenza B infection in 1975-76 epidemic (middle column) and influenza A (H1N1) infection in 1978-79 epidemic (right column), Seattle, Washington (Jr IL and Koopman J. Household and community transmission parameters from nal distribu-tions of infections in households. Biometrics, 115-126, 1982.)
+# Influenza B infection in 1975-76 epidemic (middle column) and influenza A (H1N1) infection in 1978-79 epidemic (right column), Seattle, Washington (Jr IL and Koopman J. Household and community transmission parameters from nal distribu-tions of infections in households. Biometrics, 115-126, 1982.)
+
 InfB_1975_76 <- c( 9, 12, 18,  9,  4,
                    1,  6,  6,  4,  3,
                   NA,  2,  3,  4,  0, 
@@ -99,8 +99,8 @@ InfB_1975_76 <- c( 9, 12, 18,  9,  4,
                   NA, NA, NA, NA,  0)
 H1N1_1978_79 <- c(15, 12,  4,
                   11, 17,  4,
-                  NA, 21,  5,
-                  NA, NA, NA,
+                  NA, 21,  4,
+                  NA, NA,  5,
                   NA, NA, NA,
                   NA, NA, NA)
 
@@ -256,7 +256,7 @@ test_results[test_results$grid_results < 20,]
 DistanceFct(observed_data_Table2, observed_data_Table2)
 
 # Manually create small differences and assess differences
-test1 <- c(64, 87, 25, 22,  4,
+test1 <- c(66, 87, 25, 22,  4,
            13, 14, 15,  9,  4,
            NA,  4,  4,  9,  1, 
            NA, NA,  4,  3,  1,
