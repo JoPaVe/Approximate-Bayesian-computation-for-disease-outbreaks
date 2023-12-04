@@ -221,16 +221,19 @@ CreateMatrix <- function(qc, qh, observed_data) {
 # Number of accepted particles required
 kNparticles <- 100
 
+# Number of maximum iterations
+kMaxIterations <- 10000
+
 # Number of parameters per model
 model_number_params <- c(4)
 
 kEpsilon <- 20
 
-results_Table2 <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table2 <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 
 kEpsilon <- 8
 
-results_Table3 <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table3 <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 
 
 ## Tests for arguments of calc_post_distr_base(...)
@@ -389,7 +392,7 @@ kEpsilon <- 15
 
 kNparticles <- 100
 
-results_Table2_test <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table2_test <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 results_Table2_test$marginal_model_probabilities
 
 
@@ -422,5 +425,5 @@ prior_distr <- list(PriorModel,
                     prior_params)
 
 
-results_Table3_test <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table3_test <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 results_Table3_test$marginal_model_probabilities

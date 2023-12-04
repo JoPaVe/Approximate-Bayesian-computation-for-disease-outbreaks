@@ -1,5 +1,5 @@
 
-CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_number_params, DistanceFct, DataGeneratingFct, kNparticles) {
+CalculatePosteriorBase <- function(observed_data, kEpsilon, kMaxIterations, prior_distr, model_number_params, DistanceFct, DataGeneratingFct, kNparticles) {
   
   ## Function calculates the posterior distribution of parameter of a previously specified model and marginal model probabilities
   ## Implementation according to Toni T., Stumpf M.P.H. (2009) - Simulation-based model selection for dynamical systems in systems and population biology
@@ -14,7 +14,8 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
   #   DistanceFct:         Function of distance function
   #   kNparticles:         Integer of Number of particle samples
   #   DataGeneratingFct:   Function of data generating function
-  #   kEpsilon:           Integer defining epsilon
+  #   kEpsilon:            Integer defining epsilon
+  #   kMaxIterations:      Integer defining the maximum number of iterations
   
   # Returns:
   #   List -> 1: marginal_model_probs: Data frame of marginal model probabilities
@@ -46,8 +47,6 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
   accepted <- 1
   attempted <- 1
   
-  # # Limit for maximum iterations
-  max_iterations <- 100000
   current_iteration <- 0
   
   ## Loop until kNparticles of parameters are accepted
@@ -57,7 +56,7 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
     current_iteration <- current_iteration + 1
 
     # Break the loop if maximum iterations are reached
-    if (current_iteration > max_iterations) {
+    if (current_iteration > kMaxIterations) {
       cat("Maximum iterations reached. Breaking out of the loop.\n")
       break
     }

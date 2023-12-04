@@ -1,5 +1,5 @@
 rm(list = ls())
-#setwd("C:/Users/ssara/Documents/IU Courses/Stats Degree/Courses/FA23/STAT-S 610 Intro to Statistical Computing/Project/Project/Approximate-Bayesian-computation-for-disease-outbreaks")
+
 source("ABC_algorithm.R")
 source("Tests.R")
 
@@ -15,7 +15,7 @@ results_list_3b <- list()
 # Loop over epsilon values for 3a
 for (i in seq_along(epsilon_values)) {
   start_time <- Sys.time()
-  results <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = epsilon_values[i], prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+  results <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = epsilon_values[i], kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
   end_time <- Sys.time()
   execution_times_3a[i] <- difftime(end_time, start_time, units = "secs")
   results_list_3a[[i]] <- results  # Store results for plotting
@@ -26,7 +26,7 @@ for (i in seq_along(epsilon_values)) {
 # Loop over epsilon values for 3b
 for (i in seq_along(epsilon_values)) {
   start_time <- Sys.time()
-  results <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = epsilon_values[i], prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+  results <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = epsilon_values[i], kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
   end_time <- Sys.time()
   execution_times_3b[i] <- difftime(end_time, start_time, units = "secs")
   results_list_3b[[i]] <- results  # Store results for plotting
