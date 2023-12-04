@@ -90,6 +90,7 @@ H3N2_1980_81 <- c(44, 62, 47, 38,  9,
 
 # Observed data according to Supplementary Table 3
 # Influenza B infection in 1975-76 epidemic (middle column) and influenza A (H1N1) infection in 1978-79 epidemic (right column), Seattle, Washington (Jr IL and Koopman J. Household and community transmission parameters from nal distribu-tions of infections in households. Biometrics, 115-126, 1982.)
+
 InfB_1975_76 <- c( 9, 12, 18,  9,  4,
                    1,  6,  6,  4,  3,
                   NA,  2,  3,  4,  0, 
@@ -220,16 +221,19 @@ CreateMatrix <- function(qc, qh, observed_data) {
 # Number of accepted particles required
 kNparticles <- 100
 
+# Number of maximum iterations
+kMaxIterations <- 10000
+
 # Number of parameters per model
 model_number_params <- c(4)
 
 kEpsilon <- 20
 
-results_Table2 <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table2 <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 
 kEpsilon <- 8
 
-results_Table3 <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table3 <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 
 
 ## Tests for arguments of calc_post_distr_base(...)
@@ -388,7 +392,7 @@ kEpsilon <- 15
 
 kNparticles <- 100
 
-results_Table2_test <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table2_test <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 results_Table2_test$marginal_model_probabilities
 
 
@@ -421,5 +425,5 @@ prior_distr <- list(PriorModel,
                     prior_params)
 
 
-results_Table3_test <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
+results_Table3_test <- CalculatePosteriorBase(observed_data = observed_data_Table3, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 results_Table3_test$marginal_model_probabilities

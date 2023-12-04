@@ -1,5 +1,5 @@
 
-CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_number_params, DistanceFct, DataGeneratingFct, kNparticles) {
+CalculatePosteriorBase <- function(observed_data, kEpsilon, kMaxIterations, prior_distr, model_number_params, DistanceFct, DataGeneratingFct, kNparticles) {
   
   ## Function calculates the posterior distribution of parameter of a previously specified model and marginal model probabilities
   ## Implementation according to Toni T., Stumpf M.P.H. (2009) - Simulation-based model selection for dynamical systems in systems and population biology
@@ -7,14 +7,15 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
   # Args:
   #   observed_data:       Observed data
   #   kEpsilon:           tolerance level that determines how close the simulated data should be to the observed data in integer
+  #   kMaxIterations:      Integer defining the maximum number of iterations
   #   prior_distr:         List -> 1: Function for prior distribution of models
   #                                2: List -> 1: Function of prior distributions of parameter for first model 
   #                                           2: Function of prior distributions of parameter for second model
-  #                                           ... 
+  #    
   #   model_number_params: Vector -> Number of parameters for each model
   #   DistanceFct:         Function that calculates the distance between simulated and observed data
+  #   DataGeneratingFct:   Function that generates data based on model parameters 
   #   kNparticles:         Integer of Number of particle samples to draw
-  #   DataGeneratingFct:   Function that generates data based on model parameters
   
   # Returns:
   #   List -> 1: marginal_model_probs: Data frame of marginal probabilities for each model
@@ -46,10 +47,19 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
   accepted <- 1
   attempted <- 1
   
+  current_iteration <- 0
   
   ## Loop until kNparticles of parameters are accepted
   
   while(accepted <= kNparticles) {
+    
+    current_iteration <- current_iteration + 1
+
+    # Break the loop if maximum iterations are reached
+    if (current_iteration > kMaxIterations) {
+      cat("Maximum iterations reached. Breaking out of the loop.\n")
+      break
+    }
     
     # Draw m*
     model_draw <- prior_distr[[1]]()
@@ -68,10 +78,11 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, prior_distr, model_n
     if (distance_data <= kEpsilon) {
       posterior_model_distributions[[model_draw]][accepted,] <- param_draw  # Store theta* for model m*
       accepted <- accepted + 1
-      print(accepted)
     } 
     attempted <- attempted + 1
   }
+  
+  print(current_iteration)
   
   # Remove all NA rows
   posterior_model_distributions <- lapply(posterior_model_distributions, FUN = function(param_df) {
