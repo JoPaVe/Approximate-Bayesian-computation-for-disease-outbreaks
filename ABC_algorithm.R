@@ -40,7 +40,9 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, kMaxIterations, prio
   # List of Data Frame of accepted parameter for every model -> nrows: 1, ncol: number of model parameter for every model
   posterior_model_distributions <- list()
   for (model_number in 1:number_models) {
-    posterior_model_distributions[[model_number]] <- data.frame(matrix(NA, nrow = 1, ncol = model_number_params[model_number]))
+    posterior_model_distributions[[model_number]] <- data.frame(data.frame(
+      replicate(number_params, vector("numeric", length = 0))
+    ))
   }
   
   # Number of attempted and accepted data samples
@@ -76,19 +78,13 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, kMaxIterations, prio
     
     # Store if distance <= epsilon, next otherwise
     if (distance_data <= kEpsilon) {
-      posterior_model_distributions[[model_draw]][accepted,] <- param_draw  # Store theta* for model m*
+      posterior_model_distributions[[model_draw]] <- rbind(posterior_model_distributions[[model_draw]], param_draw)  # Store theta* for model m*
       accepted <- accepted + 1
     } 
     attempted <- attempted + 1
   }
   
-  print(current_iteration)
-  
-  # Remove all NA rows
-  posterior_model_distributions <- lapply(posterior_model_distributions, FUN = function(param_df) {
-    return(param_df |> na.exclude()) 
-  })
-  
+
   # Compute marginal model probabilities
   marginal_model_probs <- sapply(1:number_models, FUN = function(model) {
     model_marginale_probability <- dim(posterior_model_distributions[[model]])[1] / kNparticles  # Number of accepted parameters for model m' / number of total accepted particles 

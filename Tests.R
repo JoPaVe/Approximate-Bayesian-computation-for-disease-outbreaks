@@ -180,7 +180,7 @@ DataGeneratingFct <- function(params_draw, observed_data) {
 }
 
 # Helper function to create sample matrix
-CreateMatrix <- function(qc, qh, observed_data) {
+CreateInfectionMatrix <- function(qc, qh, observed_data) {
   
   # Define matrix rows and columns as in observed data
   matrix_rows <- dim(observed_data)[1] 
@@ -227,7 +227,7 @@ kMaxIterations <- 10000
 # Number of parameters per model
 model_number_params <- c(4)
 
-kEpsilon <- 20
+kEpsilon <- 100
 
 results_Table2 <- CalculatePosteriorBase(observed_data = observed_data_Table2, model_number_params = model_number_params, kEpsilon = kEpsilon, kMaxIterations = kMaxIterations, prior_distr = prior_distr, DistanceFct = DistanceFct, DataGeneratingFct = DataGeneratingFct, kNparticles = kNparticles)
 
