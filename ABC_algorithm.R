@@ -87,7 +87,7 @@ CalculatePosteriorBase <- function(observed_data, kEpsilon, kMaxIterations, prio
 
   # Compute marginal model probabilities
   marginal_model_probs <- sapply(1:number_models, FUN = function(model) {
-    model_marginale_probability <- dim(posterior_model_distributions[[model]])[1] / kNparticles  # Number of accepted parameters for model m' / number of total accepted particles 
+    model_marginale_probability <- dim(posterior_model_distributions[[model]])[1] / accepted  # Number of accepted parameters for model m' / number of total accepted particles 
     return(model_marginale_probability)
   })
   
