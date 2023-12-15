@@ -1,0 +1,5 @@
+Package: Approximate-Bayesian-computation-for-disease-outbreaks
+Type: Package
+Title: ABC Algorithm Implementation
+Version: 0.1
+Author: Jonas Verch, Saranjeet Singh, Hanush Kumar

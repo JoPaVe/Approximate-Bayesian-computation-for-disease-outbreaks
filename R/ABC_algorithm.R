@@ -1,4 +1,3 @@
-
 CalculatePosteriorBase <- function(observed_data, kEpsilon, kMaxIterations, prior_distr, model_number_params, DistanceFct, DataGeneratingFct, kNparticles) {
   
   ## Function calculates the posterior distribution of parameter of a previously specified model and marginal model probabilities
